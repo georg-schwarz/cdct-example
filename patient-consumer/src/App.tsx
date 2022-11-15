@@ -1,9 +1,8 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
+import { PatientServiceContextProvider } from './apis/PatientService';
 import './App.css';
-
-import { PatientServiceContextProvider } from './apis/PatientService'
 import { AppRouter } from './router';
 
 export const App: React.FC = () => {
@@ -14,6 +13,6 @@ export const App: React.FC = () => {
       </PatientServiceContextProvider>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

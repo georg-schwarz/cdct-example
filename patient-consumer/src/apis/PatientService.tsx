@@ -3,14 +3,15 @@ import React from 'react';
 import { GetAllPatientReposonse, PatientApi } from './PatientApi';
 
 function usePatientService(): PatientApi {
-  
   function listAllPatients(): Promise<GetAllPatientReposonse> {
     return Promise.resolve({
       status: 200,
-      data: [{
-        id: '123',
-        name: 'tester'
-      }],
+      data: [
+        {
+          id: '123',
+          name: 'tester',
+        },
+      ],
     });
     // TODO: implement
   }
