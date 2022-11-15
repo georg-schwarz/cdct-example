@@ -1,19 +1,40 @@
 import React from 'react';
 
-import { GetAllPatientReposonse, PatientApi } from './PatientApi';
+import { CONFIG } from '../config/config';
+
+import {
+  GetAllPatientReposonse,
+  PatientApi,
+  isPatientDtoList,
+} from './PatientApi';
 
 function usePatientService(): PatientApi {
-  function listAllPatients(): Promise<GetAllPatientReposonse> {
-    return Promise.resolve({
-      status: 200,
-      data: [
-        {
-          id: '123',
-          name: 'tester',
-        },
-      ],
-    });
-    // TODO: implement
+  async function listAllPatients(): Promise<GetAllPatientReposonse> {
+    const backendUrl = CONFIG.BACKEND_URL;
+
+    const response = await fetch(`${backendUrl}/api/patient`);
+
+    if (response.status === 200) {
+      const body: unknown = await response.json();
+      if (isPatientDtoList(body)) {
+        return {
+          status: 200,
+          data: body,
+        };
+      }
+      return {
+        status: 500,
+        data: 'Response body does not match expected format',
+      };
+    }
+
+    if (response.status === 404 || response.status === 500) {
+      return {
+        status: response.status,
+        data: undefined,
+      };
+    }
+    throw Error('Received unexpected response!');
   }
 
   return {
